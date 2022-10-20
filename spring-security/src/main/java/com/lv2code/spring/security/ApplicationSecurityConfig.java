@@ -1,9 +1,10 @@
 package com.lv2code.spring.security;
 
+import java.util.concurrent.TimeUnit;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -13,7 +14,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 @Configuration
 @EnableWebSecurity
@@ -54,7 +54,14 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 		// this is form based auth code
 		.formLogin()
 		.loginPage("/login").permitAll()
-		.defaultSuccessUrl("/courses", true);		
+		.defaultSuccessUrl("/courses", true)
+		
+		// Remember Me 
+		.and()
+		.rememberMe() // defaults to 2 weeks
+			.tokenValiditySeconds((int) TimeUnit.DAYS.toSeconds(21))
+			.key("somethingverysecured")
+		;		
 	}
 	
 	@Override
