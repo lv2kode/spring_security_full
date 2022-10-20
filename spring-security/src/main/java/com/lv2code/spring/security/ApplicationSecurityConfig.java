@@ -48,7 +48,13 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 		.anyRequest()
 		.authenticated()
 		.and()
-		.httpBasic();
+		// this is basic auth code
+		// .httpBasic();
+		
+		// this is form based auth code
+		.formLogin()
+		.loginPage("/login").permitAll()
+		.defaultSuccessUrl("/courses", true);		
 	}
 	
 	@Override
