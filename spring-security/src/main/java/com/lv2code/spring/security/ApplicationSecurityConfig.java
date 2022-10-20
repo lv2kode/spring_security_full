@@ -54,14 +54,20 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 		
 		// this is form based auth code
 		.formLogin()
-		.loginPage("/login").permitAll()
-		.defaultSuccessUrl("/courses", true)
+			.loginPage("/login")
+			.permitAll()
+			.defaultSuccessUrl("/courses", true)
+			// customer username and password form input tags names
+			.passwordParameter("password")
+			.usernameParameter("username")
 		
 		// Remember Me 
 		.and()
 		.rememberMe() // defaults to 2 weeks
 			.tokenValiditySeconds((int) TimeUnit.DAYS.toSeconds(21))
 			.key("somethingverysecured")
+			// Remember me customer form input tag name
+			.rememberMeParameter("remember-me")
 			
 		// Custom logout configuration
 		.and()
